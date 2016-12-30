@@ -25,6 +25,7 @@ executable guestbookhs-exe
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , guestbookhs
+                     , scotty
   default-language:    Haskell2010
 
 test-suite guestbookhs-test
@@ -38,4 +39,4 @@ test-suite guestbookhs-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/guestbookhs
+  location: https://github.com/dvoraka/guestbookhs
