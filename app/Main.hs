@@ -9,6 +9,4 @@ import Web.Scotty
 main :: IO ()
 main = do
     putStrLn "Starting Server..."
-    scotty 3000 $ do
-        get "/hello" $ do
-            text "Hello world!"
+    scotty 3000 routes
