@@ -5,6 +5,8 @@ module Lib
     , routes
     ) where
 
+import Data.Monoid ((<>))
+
 import Web.Scotty
 
 
@@ -15,6 +17,7 @@ routes :: ScottyM ()
 routes = do
   get "/hello" hello
   get "/info" info
+  get "/greeting/:name" greeting
 
 hello :: ActionM ()
 hello = do
@@ -23,3 +26,9 @@ hello = do
 info :: ActionM ()
 info = do
   text "Guestbook info."
+
+greeting :: ActionM ()
+greeting = do
+  nameParam <- param "name"
+  let name = if nameParam == "" then "buddy" else nameParam
+  text ("hello " <> name <> "!")
