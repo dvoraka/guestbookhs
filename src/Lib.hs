@@ -11,6 +11,7 @@ import GHC.Generics
 
 import Web.Scotty
 import Data.Aeson (FromJSON, ToJSON)
+import qualified Data.Text.Lazy as L
 
 
 data Greeting = Greeting { message :: String } deriving (Show, Generic)
@@ -30,6 +31,7 @@ routes = do
   get "/info" info
   get "/greeting/:name" greeting
   get "/test" jsonTest
+  get "/file" fileTest
 
 hello :: ActionM ()
 hello = do
@@ -38,6 +40,11 @@ hello = do
 info :: ActionM ()
 info = do
   text "Guestbook info."
+
+fileTest :: ActionM()
+fileTest = do
+  str <- liftAndCatchIO $ readFile "test.txt"
+  text $ L.pack str
 
 greeting :: ActionM ()
 greeting = do
