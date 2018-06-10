@@ -11,6 +11,9 @@ import GHC.Generics
 
 import Web.Scotty
 import Data.Aeson (FromJSON, ToJSON)
+-- SQLite
+import Database.HDBC.Sqlite3
+
 import qualified Data.Text.Lazy as L
 
 
