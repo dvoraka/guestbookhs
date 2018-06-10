@@ -22,6 +22,9 @@ data Greeting = Greeting { message :: String } deriving (Show, Generic)
 instance ToJSON Greeting
 instance FromJSON Greeting
 
+
+getDbName = "test.db"
+
 defaultGreeting :: Greeting
 defaultGreeting = Greeting { message = "Hello!" }
 
@@ -35,6 +38,7 @@ routes = do
   get "/greeting/:name" greeting
   get "/test" jsonTest
   get "/file" fileTest
+  get "/db" dbTest
 
 hello :: ActionM ()
 hello = do
@@ -44,10 +48,15 @@ info :: ActionM ()
 info = do
   text "Guestbook info."
 
-fileTest :: ActionM()
+fileTest :: ActionM ()
 fileTest = do
   str <- liftAndCatchIO $ readFile "test.txt"
   text $ L.pack str
+
+dbTest :: ActionM ()
+dbTest = do
+  conn <- liftAndCatchIO $ connectSqlite3 getDbName
+  text "DB connected."
 
 greeting :: ActionM ()
 greeting = do
