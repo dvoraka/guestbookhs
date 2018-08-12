@@ -4,6 +4,7 @@
 module Lib
     ( testFunc
     , routes
+    , createTestTable
     ) where
 
 import Data.Monoid ((<>))
@@ -28,6 +29,7 @@ instance FromJSON Greeting
 
 
 getDbName = "test.db"
+getDbTable = "test"
 
 defaultGreeting :: Greeting
 defaultGreeting = Greeting { message = "Hello!" }
@@ -65,6 +67,8 @@ fileTest = do
 dbTest :: ActionM ()
 dbTest = do
   conn <- liftAndCatchIO $ connectSqlite3 getDbName
+  liftAndCatchIO $ putStrLn "DB connected."
+  liftAndCatchIO $ run conn ("SELECT * FROM " ++ getDbTable) []
   text "DB connected."
 
 greeting :: ActionM ()
@@ -75,3 +79,18 @@ greeting = do
 
 jsonTest :: ActionM ()
 jsonTest = json defaultGreeting
+
+createTestTable :: IO ()
+createTestTable = do
+  putStr $ "Connecting to DB: " <> getDbName <> "... "
+  conn <- connectSqlite3 getDbName
+  putStrLn "Done"
+
+  putStr $ "Creating test DB: " <> getDbTable <> "... "
+  run conn ("CREATE TABLE " <> getDbTable <> "(id INTEGER NOT NULL)") []
+  commit conn
+  putStrLn "Done"
+
+  disconnect conn
+
+  putStrLn "Table created."
