@@ -22,6 +22,7 @@ library
                      , HDBC-sqlite3
                      , scotty
                      , text
+                     , wai-extra
   default-language:    Haskell2010
 
 executable guestbookhs-exe

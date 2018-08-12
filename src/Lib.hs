@@ -10,8 +10,12 @@ import Data.Monoid ((<>))
 import GHC.Generics
 
 import Web.Scotty
+import Network.Wai.Middleware.RequestLogger
+
 import Data.Aeson (FromJSON, ToJSON)
+
 -- SQLite
+import Database.HDBC
 import Database.HDBC.Sqlite3
 
 import qualified Data.Text.Lazy as L
@@ -33,12 +37,17 @@ testFunc = putStrLn "Test function"
 
 routes :: ScottyM ()
 routes = do
+  enableDevLogging
+
   get "/hello" hello
   get "/info" info
   get "/greeting/:name" greeting
   get "/test" jsonTest
   get "/file" fileTest
   get "/db" dbTest
+
+enableDevLogging :: ScottyM ()
+enableDevLogging = middleware logStdoutDev
 
 hello :: ActionM ()
 hello = do
