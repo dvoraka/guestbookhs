@@ -1,8 +1,13 @@
 # Stack
 .stack-work/
 
+cabal.config
+
 # Idea
 .idea/
 *.iml
 
 ideaHaskellLib/
+
+# test DB file
+test.db
